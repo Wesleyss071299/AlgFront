@@ -1,5 +1,12 @@
 .App {
   text-align: center;
+  background-color: #D3D3D3;
+  
+}
+
+.GraphLine {
+  height: 50%;
+  width: 50%;
 }
 
 .App-logo {
