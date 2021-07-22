@@ -8,6 +8,11 @@ interface IData {
   binary: number[],
 }
 
+interface IPortal {
+  codigo: string,
+  descricao: string
+}
+
 
 const optionsLine = {
   scales: {
@@ -44,6 +49,8 @@ const optionsBar = {
 
 const App: React.FC = () => {
   const [result, setResult] = useState<IData>();
+  const [portal, setPortal] = useState<IPortal[]>([]);
+
   const data = {
     labels: ["0", "2", "4", "6", "8", "10", '12', '14', '16', '18', '20',],
     datasets: [
@@ -75,11 +82,47 @@ const App: React.FC = () => {
 
     fetchData()
   }, []);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const response = await axios.get('https://localhost:5001/api/Alg/all', {
+        headers : {
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*"
+        }
+      });
+      const result: IPortal[] = response.data.orgaos;
+      setPortal(result)
+    }
+
+    fetchData()
+  }, []);
+
+
   return (
     <div className="App">
         <div className='GraphLine'>
           <Line data={data} options={optionsLine} />
           <Bar data={data} options={optionsBar} />
+        </div>
+        <div>
+        {portal.map((item) => {
+          return (
+            <>
+            <table className="table">
+              <tr>
+                <th>Codigo</th>
+                <th>Descricao</th>
+              </tr>
+              <tr>
+                <td>{item.codigo}</td>
+                <td>{item.descricao}</td>
+              </tr>
+            </table>
+            </>
+          )
+        })}
+
         </div>
     </div>
   );
