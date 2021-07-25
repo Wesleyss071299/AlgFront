@@ -4,8 +4,9 @@ import "./App.css";
 import { Line, Bar} from "react-chartjs-2";
 
 interface IData {
-  linear: number[],
-  binary: number[],
+  bubbleTimeArray: number[],
+  binaryTimeArray: number[],
+  linearTimeArray: number[]
 }
 
 interface IPortal {
@@ -28,8 +29,6 @@ const optionsLine = {
 
 const optionsBar = {
   indexAxis: 'y',
-  // Elements options apply to all of the options unless overridden in a dataset
-  // In this case, we are setting the border of each horizontal bar to be 2px wide
   elements: {
     bar: {
       borderWidth: 2,
@@ -52,20 +51,27 @@ const App: React.FC = () => {
   const [portal, setPortal] = useState<IPortal[]>([]);
 
   const data = {
-    labels: ["0", "2", "4", "6", "8", "10", '12', '14', '16', '18', '20',],
+    labels: ["15", "30", "45", "60", "75", "90", '105', '120', '135', '150',],
     datasets: [
       {
         label: "Linear",
-        data: result?.linear,
+        data: result?.linearTimeArray,
         backgroundColor: "rgba(75,192,192,0.2)",
         borderColor: "rgba(75,192,192,1)"
       },
       {
         label: "Binary",
-        data: result?.binary,
+        data: result?.binaryTimeArray,
         fill: false,
         borderColor: "#742774"
-      }
+      },
+      {
+        label: "Bubble",
+        data: result?.bubbleTimeArray,
+        fill: false,
+        borderColor: "#ff0000"
+      },
+
     ]
   };
   useEffect(() => {
